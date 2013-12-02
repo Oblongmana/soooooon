@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app>
+<html>
   
   <head>
     <title>New Page</title>
@@ -8,14 +8,123 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min.js"></script>
+    
+
+    <script>
+        var soooooonApp = angular.module('soooooonApp',[]);
+
+        soooooonApp.controller('occassionsController', function($scope, $timeout) {
+          var sourceData = [
+              { 
+                occassion: 'Graduation',
+                tagline: 'Aw yiss real soon now',
+                futureMoment: moment("17-12-2013-21-15-+1300", "DD-MM-YYYY-HH-mm-ZZ")
+              },
+              { 
+                occassion: 'Wellington',
+                tagline: 'Also pretty soon :D',
+                futureMoment: moment("26-12-2013-19-15-+1300", "DD-MM-YYYY-HH-mm-ZZ")
+              }
+            ];
+
+          summativeCountdownInfo = function (stringCountdownToWhat, tagline, futureMoment) {
+            runningMoment = futureMoment.clone(); //moment.js moments are mutable :(
+            summativeYears = runningMoment.diff(moment(),"years");;
+            runningMoment =  runningMoment.subtract("years",summativeYears);
+            summativeMonths = runningMoment.diff(moment(),"months");
+            runningMoment =  runningMoment.subtract("months",summativeMonths);
+            summativeDays = runningMoment.diff(moment(),"days");
+            runningMoment =  runningMoment.subtract("days",summativeDays);
+            summativeHours = runningMoment.diff(moment(),"hours");
+            runningMoment =  runningMoment.subtract("hours",summativeHours);
+            summativeMinutes = runningMoment.diff(moment(),"minutes");
+            runningMoment =  runningMoment.subtract("minutes",summativeMinutes);
+            summativeSeconds = runningMoment.diff(moment(),"seconds");
+
+            return {
+              what: stringCountdownToWhat,
+              tagline: tagline,
+              years: summativeYears,
+              months: summativeMonths,
+              days: summativeDays,
+              hours: summativeHours,
+              minutes: summativeMinutes,
+              seconds: summativeSeconds
+            }
+          }
+
+          $scope.occassionsCountdowns = [];
+
+          recalculate = function() {
+            $scope.occassionsCountdowns = [];
+            for (var i = 0; i < sourceData.length; i++) {
+                if(sourceData[i].futureMoment.diff() > 0){
+                  $scope.occassionsCountdowns.push(
+                    summativeCountdownInfo(
+                      sourceData[i].occassion,
+                      sourceData[i].tagline,
+                      sourceData[i].futureMoment
+                    )
+                  );
+                }
+            }
+          }
+          
+          recalculate();
+          
+
+          $scope.onTimeout = function(){
+              recalculate();
+              $timeout($scope.onTimeout,1000);
+          }
+          var occasionTimeout = $timeout($scope.onTimeout,1000);
+        });
+    </script>
   </head>
   
   <body>
-    <div class="container">
-      <div class="jumbotron">
-        <h1>Graduation</h1>
-        <p>Aw yiss real soon now</p>
-        <p><a class="btn btn-primary btn-lg">Learn more</a></p>
+    <div class="container" ng-app="soooooonApp" ng-controller="occassionsController">
+      <div class="jumbotron" ng-repeat="occassionCountdown in occassionsCountdowns">
+        <h1>{{occassionCountdown.what}}</h1>
+        <p>{{occassionCountdown.tagline}}</p>
+        <div class="row">
+          <div class="col-md-2">
+              <div class="well text-center">
+              <h1>{{occassionCountdown.months}}</h1>
+              <hr/>
+              months
+            </div>
+          </div>
+          <div class="col-md-2">
+              <div class="well text-center">
+              <h1>{{occassionCountdown.days}}</h1>
+              <hr/>
+              days
+            </div>
+          </div>
+          <div class="col-md-2">
+              <div class="well text-center">
+              <h1>{{occassionCountdown.hours}}</h1>
+              <hr/>
+              hours
+            </div>
+          </div>
+          <div class="col-md-2">
+              <div class="well text-center">
+              <h1>{{occassionCountdown.minutes}}</h1>
+              <hr/>
+              minutes
+            </div>
+          </div>
+          <div class="col-md-2">
+              <div class="well text-center">
+              <h1>{{occassionCountdown.seconds}}</h1>
+              <hr/>
+              seconds
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
