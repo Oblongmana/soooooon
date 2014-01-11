@@ -4,12 +4,13 @@
   <head>
     <title>Soooooon</title>
     <meta name="viewport" content="width=device-width">
-    <!-- <link rel="stylesheet" href="https://djyhxgczejc94.cloudfront.net/frameworks/bootstrap/3.0.0/themes/white-plum/bootstrap.min.css"> -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.0.2/spacelab/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.0.0/animate.min.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min.js"></script>
+
     
 
     <script>
@@ -26,8 +27,19 @@
                 occassion: 'Wellington',
                 tagline: 'Also pretty soon :D',
                 futureMoment: moment("26-12-2013-19-15-+1300", "DD-MM-YYYY-HH-mm-ZZ")
+              },
+              { 
+                occassion: 'Savannah comes to Christchurch',
+                tagline: 'Hugssssssss',
+                futureMoment: moment("31-01-2014-19-29-+1300", "DD-MM-YYYY-HH-mm-ZZ")
+              },
+              { 
+                occassion: 'Savannah back for Valentine\'s',
+                tagline: 'Grossssssss :D',
+                futureMoment: moment("14-02-2014-22-15-+1300", "DD-MM-YYYY-HH-mm-ZZ")
               }
             ];
+          console.log(sourceData);
 
           summativeCountdownInfo = function (stringCountdownToWhat, tagline, futureMoment) {
             runningMoment = futureMoment.clone(); //moment.js moments are mutable :(
@@ -77,9 +89,9 @@
 
           $scope.onTimeout = function(){
               recalculate();
-              $timeout($scope.onTimeout,1000);
+              $timeout($scope.onTimeout,100000);
           }
-          var occasionTimeout = $timeout($scope.onTimeout,1000);
+          var occasionTimeout = $timeout($scope.onTimeout,100000);
         });
     </script>
   </head>
