@@ -89,9 +89,9 @@
 
           $scope.onTimeout = function(){
               recalculate();
-              $timeout($scope.onTimeout,100000);
+              $timeout($scope.onTimeout,1000);
           }
-          var occasionTimeout = $timeout($scope.onTimeout,100000);
+          var occasionTimeout = $timeout($scope.onTimeout,1000);
         });
     </script>
   </head>
